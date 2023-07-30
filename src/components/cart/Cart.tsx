@@ -2,7 +2,7 @@ import { Header } from '../Header';
 export function Cart() {
     return (
         <>
-            <Header />
+            <Header activePage="cart" />
             <h1>Cart page!</h1>
         </>
     );
