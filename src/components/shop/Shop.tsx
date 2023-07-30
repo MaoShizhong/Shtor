@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FormEvent } from 'react';
 import { Header } from '../Header';
 import { Filters } from './Filters';
 import { Items } from './Items';
@@ -21,7 +21,12 @@ export type Product = {
     images: string[];
 };
 
-export function Shop() {
+type ShopProps = {
+    cartTotal: number;
+    addToCart: (e: FormEvent, arg1: Product, arg2: number) => void;
+};
+
+export function Shop({ cartTotal, addToCart }: ShopProps) {
     const { productsJSON, error, loading } = useFetchProducts();
     const [products, setProducts] = useState<Product[]>(productsJSON);
     const [category, setCategory] = useState<CategoryFilter>('all');
@@ -58,8 +63,8 @@ export function Shop() {
 
     return (
         <>
-            <Header activePage="shop" />
-            <main className="flex flex-col items-center mx-auto w-[min(1000px,90vw)]">
+            <Header activePage="shop" cartTotal={cartTotal} />
+            <main className="relative flex flex-col items-center mx-auto w-[min(1200px,90vw)] mb-12">
                 {error ? (
                     <p>{error}</p>
                 ) : loading ? (
@@ -68,6 +73,7 @@ export function Shop() {
                     <>
                         <Filters changeFilter={changeFilter} sortProducts={sortProducts} />
                         <Items
+                            addToCart={addToCart}
                             products={products.filter((product) =>
                                 category === 'all' ? product : product.category.id === +category
                             )}
@@ -122,3 +128,4 @@ function sortDescending(a: string | number, b: string | number): number {
     else if (a > b) return -1;
     else return 0;
 }
+4;

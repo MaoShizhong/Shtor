@@ -1,6 +1,6 @@
 import { render, screen, getByRole } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App from '../src/App';
+import App from '../src/components/home/Home';
 import Router from '../src/components/Router';
 import { BrowserRouter } from 'react-router-dom';
 

@@ -7,11 +7,11 @@ type FiltersProps = {
 
 export function Filters({ changeFilter, sortProducts }: FiltersProps) {
     return (
-        <div className="sticky top-0 flex justify-end gap-8 w-[min(100%,80vw)] text-sm">
-            <label>
+        <div className="sticky top-0 flex justify-between w-full gap-8 pt-4 text-sm text-center bg-white sm:top-36 sm:justify-end">
+            <label className="flex flex-col items-center mb-4 sm:flex-row">
                 Filter:
                 <select
-                    className="p-1 mt-2 mb-6 ml-2"
+                    className="p-1 sm:ml-2 "
                     onChange={(e): void => changeFilter(e.target.value as CategoryFilter)}
                 >
                     <option value="all">Show All</option>
@@ -22,10 +22,10 @@ export function Filters({ changeFilter, sortProducts }: FiltersProps) {
                     <option value={5}>Arbitrary category 5</option>
                 </select>
             </label>
-            <label>
+            <label className="flex flex-col items-center mb-4 sm:flex-row">
                 Sort:
                 <select
-                    className="p-1 mt-2 mb-6 ml-2"
+                    className="p-1 sm:ml-2 "
                     onChange={(e): void => sortProducts(e.target.value as SortFilter)}
                 >
                     <option value="popular">Most Popular</option>

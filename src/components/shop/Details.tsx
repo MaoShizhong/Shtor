@@ -1,60 +1,47 @@
-import { forwardRef, useEffect, useState } from 'react';
+import { useState, FormEvent } from 'react';
+import { Product } from './Shop';
 
 type DetailsProps = {
-    handleClose: (arg0: boolean) => void;
+    product: Product;
     title: string;
     price: string;
     description: string;
-    images: string[];
+    addToCart: (e: FormEvent, arg1: Product, arg2: number) => void;
 };
 
-export const Details = forwardRef<HTMLDialogElement, DetailsProps>(function Details(
-    { handleClose, title, price, description, images },
-    modalRef
-) {
-    const [activeImage, setActiveImage] = useState({ image: images[0], index: '0' });
+// Max. 30 purchase quantity at a time
+const quantities = [...Array(31).keys()].slice(1);
 
-    useEffect((): void => {
-        const prevImage = document.querySelector('.outline');
-        prevImage?.classList.remove('outline');
-
-        const activeImageMini = document.getElementById(activeImage.index);
-        activeImageMini?.classList.add('outline');
-    }, [activeImage]);
+export function Details({ product, title, price, description, addToCart }: DetailsProps) {
+    const [currentQuantity, setCurrentQuantity] = useState(1);
 
     return (
-        <dialog
-            className="flex flex-col w-[min(80vw,400px)] p-4 border border-main text-main backdrop:backdrop-blur-sm backdrop:backdrop-brightness-50"
-            ref={modalRef}
-        >
-            <button className="self-end px-2 " onClick={(): void => handleClose(false)}>
-                Close
-            </button>
-            <div className="flex flex-col self-center gap-2 my-4 sm:flex-row">
-                <div className="flex sm:flex-col justify-evenly sm:w-[13%]">
-                    {images.slice(0, 3).map((image, i) => (
-                        <button
-                            id={i.toString()}
-                            className="max-w-[15%] sm:max-w-full hover:outline"
-                            onClick={(): void =>
-                                setActiveImage({ image: image, index: i.toString() })
-                            }
-                        >
-                            <img src={image} />
-                        </button>
-                    ))}
-                </div>
-                <img
-                    className="max-w-[80%] self-center border border-main"
-                    src={activeImage.image}
-                ></img>
-            </div>
+        <>
             <div className="flex justify-between my-4">
                 <h1 className="font-bold">{title}</h1>
                 <p>{price}</p>
             </div>
             <p className="mb-8">{description}</p>
-            <button className="self-end px-2 border border-dashed border-soft">Add to cart</button>
-        </dialog>
+            <form
+                onSubmit={(e): void => addToCart(e, product, currentQuantity)}
+                className="self-end"
+            >
+                <label>
+                    Quantity:
+                    <select
+                        className="px-2 ml-2"
+                        onChange={(e): void => setCurrentQuantity(+e.target.value)}
+                        defaultValue={1}
+                    >
+                        {quantities.map((quantity) => (
+                            <option value={quantity}>{quantity}</option>
+                        ))}
+                    </select>
+                </label>
+                <button type="submit" className="px-2 ml-2 border border-dashed border-soft">
+                    Add to cart
+                </button>
+            </form>
+        </>
     );
-});
+}

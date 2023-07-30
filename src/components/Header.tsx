@@ -2,20 +2,20 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 type Page = 'home' | 'shop' | 'cart';
-type HeaderProps = { activePage: Page };
+type HeaderProps = { activePage: Page; cartTotal: number };
 
-export function Header({ activePage }: HeaderProps) {
+export function Header({ activePage, cartTotal }: HeaderProps) {
     useEffect((): void => {
         const activeTab = document.getElementById(activePage);
         activeTab?.classList.add('underline');
     }, [activePage]);
 
     return (
-        <header className="top-0 w-screen py-4 bg-white sm:sticky h-max">
-            <Link to="/" className="h-2/3">
-                <img src="./logo.png" alt="Stor logo" className="mx-auto max-h-14"></img>
+        <header className="top-0 z-10 flex flex-col py-4 bg-white border-b sm:sticky h-36 border-soft">
+            <Link to="/" className="self-center h-2/3">
+                <img src="./logo.png" alt="Shtor logo" className="max-h-16"></img>
             </Link>
-            <nav className="flex items-center py-4 mx-auto uppercase transition-all border-b md:max-w-2xl md:gap-24 justify-evenly md:justify-center border-soft h-1/3 decoration-medium">
+            <nav className="flex items-center pt-4 pb-1 uppercase transition-all md:gap-24 justify-evenly md:justify-center h-1/3 decoration-medium">
                 <Link
                     to="/"
                     id="home"
