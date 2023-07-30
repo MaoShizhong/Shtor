@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Header } from '../Header';
+import { Filters } from './Filters';
 import { Items } from './Items';
 
 export type CategoryFilter = 'all' | '1' | '2' | '3' | '4' | '5';
@@ -23,6 +24,35 @@ export type Product = {
 export function Shop() {
     const { productsJSON, error, loading } = useFetchProducts();
     const [products, setProducts] = useState<Product[]>(productsJSON);
+    const [category, setCategory] = useState<CategoryFilter>('all');
+
+    function changeFilter(category: CategoryFilter): void {
+        setCategory(category);
+    }
+
+    function sortProducts(sort: SortFilter): void {
+        const sortedProducts: Product[] = [...products];
+
+        switch (sort) {
+            case 'alphaAsc':
+                sortedProducts.sort((a, b): number => sortAscending(a.title, b.title));
+                break;
+            case 'alphaDesc':
+                sortedProducts.sort((a, b): number => sortDescending(a.title, b.title));
+                break;
+            case 'priceAsc':
+                sortedProducts.sort((a, b): number => sortAscending(a.price, b.price));
+                break;
+            case 'priceDesc':
+                sortedProducts.sort((a, b): number => sortDescending(a.price, b.price));
+                break;
+            default:
+                setProducts(productsJSON);
+                return;
+        }
+
+        setProducts(sortedProducts);
+    }
 
     useEffect((): void => setProducts(productsJSON), [productsJSON]);
 
@@ -35,7 +65,14 @@ export function Shop() {
                 ) : loading ? (
                     <p>Loading products...</p>
                 ) : (
-                    <Items products={products} />
+                    <>
+                        <Filters changeFilter={changeFilter} sortProducts={sortProducts} />
+                        <Items
+                            products={products.filter((product) =>
+                                category === 'all' ? product : product.category.id === +category
+                            )}
+                        />
+                    </>
                 )}
             </main>
         </>
@@ -73,4 +110,16 @@ function useFetchProducts() {
     }, []);
 
     return { productsJSON, error, loading };
+}
+
+function sortAscending(a: string | number, b: string | number): number {
+    if (a < b) return -1;
+    else if (a > b) return 1;
+    else return 0;
+}
+
+function sortDescending(a: string | number, b: string | number): number {
+    if (a < b) return 1;
+    else if (a > b) return -1;
+    else return 0;
 }
