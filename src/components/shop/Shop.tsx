@@ -9,7 +9,7 @@ export type SortFilter = 'alphaAsc' | 'alphaDesc' | 'priceAsc' | 'priceDesc';
 export type Category = {
     id: number;
     name: string;
-    image: URL;
+    image: string;
 };
 
 export type Product = {
@@ -18,7 +18,7 @@ export type Product = {
     price: number;
     description: string;
     category: Category;
-    images: URL[];
+    images: string[];
 };
 
 export function Shop() {
@@ -59,7 +59,7 @@ export function Shop() {
     return (
         <>
             <Header activePage="shop" />
-            <main className="flex flex-col items-center mx-auto md:max-w-5xl">
+            <main className="flex flex-col items-center mx-auto w-[min(1000px,90vw)]">
                 {error ? (
                     <p>{error}</p>
                 ) : loading ? (
@@ -97,7 +97,6 @@ function useFetchProducts() {
 
                 const products = await res.json();
 
-                // First item description does not follow naming convention of other items
                 setProductsJSON(products.slice(1));
             } catch (e) {
                 setError((e as Error).message);

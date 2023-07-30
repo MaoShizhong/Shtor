@@ -7,7 +7,7 @@ type ItemsProps = {
 
 export function Items({ products }: ItemsProps) {
     return (
-        <div className="grid max-w-5xl">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-8">
             {products.map((product) => (
                 <Item key={product.id} product={product} />
             ))}

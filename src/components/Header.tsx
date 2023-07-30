@@ -11,7 +11,7 @@ export function Header({ activePage }: HeaderProps) {
     }, [activePage]);
 
     return (
-        <header className="sticky top-0 w-screen py-4 bg-white h-max">
+        <header className="top-0 w-screen py-4 bg-white sm:sticky h-max">
             <Link to="/" className="h-2/3">
                 <img src="./logo.png" alt="Stor logo" className="mx-auto max-h-14"></img>
             </Link>

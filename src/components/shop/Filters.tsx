@@ -7,7 +7,7 @@ type FiltersProps = {
 
 export function Filters({ changeFilter, sortProducts }: FiltersProps) {
     return (
-        <div className="sticky top-0 flex justify-end gap-8 w-[min(100%,80vw)]">
+        <div className="sticky top-0 flex justify-end gap-8 w-[min(100%,80vw)] text-sm">
             <label>
                 Filter:
                 <select
