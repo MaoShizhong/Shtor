@@ -19,10 +19,12 @@ export function Cart() {
             </button>
             <table className="mx-auto my-8">
                 <thead>
-                    <tr className="hidden sm:table-row">
-                        <th>Items</th>
-                        <th>Order Value</th>
-                    </tr>
+                    {cartTotal ? (
+                        <tr className="hidden sm:table-row">
+                            <th>Items</th>
+                            <th>Order Value</th>
+                        </tr>
+                    ) : null}
                 </thead>
                 <tbody>
                     {[...cart.values()].map((item, i) => (
@@ -42,7 +44,9 @@ export function Cart() {
                                 {getPriceAsCurrencyString(cartTotal)}
                             </td>
                         ) : (
-                            <td>Basket is empty!</td>
+                            <td className="text-center" colSpan={2}>
+                                Cart is empty!
+                            </td>
                         )}
                     </tr>
                 </tfoot>
