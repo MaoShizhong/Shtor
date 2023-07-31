@@ -68,7 +68,7 @@ export function Shop({ cartTotal, addToCart }: ShopProps) {
                 {error ? (
                     <p>{error}</p>
                 ) : loading ? (
-                    <p>Loading products...</p>
+                    <p className="mt-12">Loading products...</p>
                 ) : (
                     <>
                         <Filters changeFilter={changeFilter} sortProducts={sortProducts} />

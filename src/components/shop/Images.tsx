@@ -12,6 +12,7 @@ export function Images({ images, activeImage, setActiveImage }: ImagesProps) {
             <div className="flex sm:flex-col justify-evenly sm:w-[13%]">
                 {images.slice(0, 3).map((image, i) => (
                     <button
+                        key={i}
                         id={i.toString()}
                         className="max-w-[15%] sm:max-w-full hover:outline"
                         onClick={(): void => setActiveImage({ image: image, index: i.toString() })}

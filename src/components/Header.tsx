@@ -10,8 +10,13 @@ export function Header({ activePage, cartTotal }: HeaderProps) {
         activeTab?.classList.add('underline');
     }, [activePage]);
 
+    const totalCost = (cartTotal / 10).toLocaleString('en-GB', {
+        style: 'currency',
+        currency: 'GBP',
+    });
+
     return (
-        <header className="top-0 z-10 flex flex-col py-4 bg-white border-b sm:sticky h-36 border-soft">
+        <header className="top-0 z-10 flex flex-col w-full py-4 bg-white border-b sm:sticky h-36 border-soft">
             <Link to="/" className="self-center h-2/3">
                 <img src="./logo.png" alt="Shtor logo" className="max-h-16"></img>
             </Link>
@@ -35,7 +40,7 @@ export function Header({ activePage, cartTotal }: HeaderProps) {
                     id="cart"
                     className="transition-all cursor-pointer hover:text-slate-800 underline-offset-8 "
                 >
-                    Cart
+                    {cartTotal ? `Cart - ${totalCost}` : 'Cart'}
                 </Link>
             </nav>
         </header>

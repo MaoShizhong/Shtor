@@ -1,5 +1,6 @@
 import { Product } from './Shop';
 import { DetailsModal } from './DetailsModal';
+import { getPriceAsCurrencyString } from '../../util';
 import { useEffect, useRef, useState, FormEvent } from 'react';
 
 type ItemProps = {
@@ -11,10 +12,7 @@ export function Item({ product, addToCart }: ItemProps) {
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
 
     const modalRef = useRef<HTMLDialogElement>(null);
-    const price = (product.price / 10).toLocaleString('en-GB', {
-        style: 'currency',
-        currency: 'GBP',
-    });
+    const price = getPriceAsCurrencyString(product.price);
 
     useEffect((): void => {
         if (isDetailsModalOpen) modalRef.current?.showModal();

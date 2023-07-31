@@ -2,29 +2,33 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Product, Shop } from './shop/Shop';
 import { Cart } from './cart/Cart';
 import { Home } from './home/Home';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
+
+type ID = number;
+
+export type CartProduct = Product & {
+    quantity: number;
+};
 
 const Router = () => {
-    const [cart, setCart] = useState<Product[]>([]);
+    const [cart, setCart] = useState(new Map<ID, CartProduct>());
     const [cartTotal, setCartTotal] = useState(0);
 
     function addToCart(e: FormEvent, product: Product, quantity: number): void {
         e.preventDefault();
 
-        const productsToAdd: Product[] = [];
+        const productInCart = cart.get(product.id);
 
-        for (let i = 0; i < quantity; i++) {
-            productsToAdd.push(product);
+        if (productInCart) {
+            productInCart.quantity += quantity;
+            setCart(cart.set(product.id, productInCart));
+        } else {
+            const newProduct = { ...product, quantity: quantity };
+            setCart(cart.set(product.id, newProduct));
         }
 
-        setCart([...cart, ...productsToAdd]);
+        setCartTotal(cartTotal + product.price * quantity);
     }
-
-    useEffect((): void => {
-        const totalCost = cart.map((item): number => item.price).reduce((a, c): number => a + c, 0);
-        setCartTotal(totalCost);
-        console.log(cart);
-    }, [cart]);
 
     const router = createBrowserRouter([
         {
@@ -37,7 +41,7 @@ const Router = () => {
         },
         {
             path: 'cart',
-            element: <Cart cartTotal={cartTotal} />,
+            element: <Cart cart={cart} cartTotal={cartTotal} />,
         },
     ]);
 

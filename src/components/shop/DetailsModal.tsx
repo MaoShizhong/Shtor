@@ -47,6 +47,7 @@ export const DetailsModal = forwardRef<HTMLDialogElement, DetailsModalProps>(fun
                 price={price}
                 description={description}
                 addToCart={addToCart}
+                handleClose={handleClose}
             />
         </dialog>
     );

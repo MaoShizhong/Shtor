@@ -7,12 +7,20 @@ type DetailsProps = {
     price: string;
     description: string;
     addToCart: (e: FormEvent, arg1: Product, arg2: number) => void;
+    handleClose: (arg0: boolean) => void;
 };
 
-// Max. 30 purchase quantity at a time
-const quantities = [...Array(31).keys()].slice(1);
+// Max. 10 purchase quantity at a time
+const quantities = [...Array(11).keys()].slice(1);
 
-export function Details({ product, title, price, description, addToCart }: DetailsProps) {
+export function Details({
+    product,
+    title,
+    price,
+    description,
+    addToCart,
+    handleClose,
+}: DetailsProps) {
     const [currentQuantity, setCurrentQuantity] = useState(1);
 
     return (
@@ -23,7 +31,10 @@ export function Details({ product, title, price, description, addToCart }: Detai
             </div>
             <p className="mb-8">{description}</p>
             <form
-                onSubmit={(e): void => addToCart(e, product, currentQuantity)}
+                onSubmit={(e): void => {
+                    addToCart(e, product, currentQuantity);
+                    handleClose(false);
+                }}
                 className="self-end"
             >
                 <label>
@@ -33,8 +44,10 @@ export function Details({ product, title, price, description, addToCart }: Detai
                         onChange={(e): void => setCurrentQuantity(+e.target.value)}
                         defaultValue={1}
                     >
-                        {quantities.map((quantity) => (
-                            <option value={quantity}>{quantity}</option>
+                        {quantities.map((quantity, i) => (
+                            <option key={i} value={quantity}>
+                                {quantity}
+                            </option>
                         ))}
                     </select>
                 </label>
