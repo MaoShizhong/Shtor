@@ -1,4 +1,4 @@
-import { useEffect, useState, FormEvent } from 'react';
+import { useEffect, useState } from 'react';
 import { Header } from '../Header';
 import { Filters } from './Filters';
 import { Items } from './Items';
