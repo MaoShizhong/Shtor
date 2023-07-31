@@ -1,13 +1,29 @@
-import { CartProduct } from '../../App';
+import { ChangeEvent, useContext } from 'react';
+import { CartContext, CartProduct } from '../../App';
 import { getPriceAsCurrencyString } from '../../util';
 
 type CartItemProps = {
     item: CartProduct;
 };
 
+const quantities = [...Array(11).keys()];
+
 export function CartItem({ item }: CartItemProps) {
     const unitValue = getPriceAsCurrencyString(item.price);
     const orderValue = getPriceAsCurrencyString(item.price * item.quantity);
+
+    const { addToCart, removeFromCart } = useContext(CartContext);
+
+    function handleChange(e: ChangeEvent): void {
+        const dropdown = e.target as HTMLSelectElement;
+        const newQuantity: number = +dropdown.value;
+
+        if (newQuantity > item.quantity) {
+            addToCart(e, item, newQuantity - item.quantity);
+        } else {
+            removeFromCart(e, item, item.quantity - newQuantity);
+        }
+    }
 
     return (
         <>
@@ -16,21 +32,18 @@ export function CartItem({ item }: CartItemProps) {
                     <img className="max-w-[4rem] border border-soft" src={item.images[0]}></img>
                     <div className="w-[min(300px,50vw)]">
                         <h1 className="font-bold">{item.title}</h1>
-                        <p>
-                            Qty: {item.quantity} ({unitValue} per)
-                        </p>
+                        <div className="flex items-center gap-2">
+                            <select defaultValue={item.quantity} onChange={handleChange}>
+                                {quantities.map((quantity) => (
+                                    <option value={quantity}>{quantity}</option>
+                                ))}
+                            </select>
+                            <p>x {unitValue}</p>
+                        </div>
                     </div>
                 </div>
             </td>
-            <td className="relative flex flex-col justify-around sm:table-cell">
-                {orderValue}
-                <button
-                    className="sm:absolute text-xl transition-all duration-75 sm:-translate-y-0.5 sm:-right-12 hover:text-slate-800 hover:scale-105"
-                    aria-label="Remove item"
-                >
-                    X
-                </button>
-            </td>
+            <td className="self-center">{orderValue}</td>
         </>
     );
 }
