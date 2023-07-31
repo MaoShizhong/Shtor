@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { CartContext } from '../App';
 
 type Page = 'home' | 'shop' | 'cart';
-type HeaderProps = { activePage: Page; cartTotal: number };
 
-export function Header({ activePage, cartTotal }: HeaderProps) {
+export function Header({ activePage }: { activePage: Page }) {
+    const { cartTotal } = useContext(CartContext);
+
     useEffect((): void => {
         const activeTab = document.getElementById(activePage);
         activeTab?.classList.add('underline');

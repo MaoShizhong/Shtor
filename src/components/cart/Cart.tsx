@@ -1,18 +1,15 @@
+import { CartContext } from '../../App';
 import { getPriceAsCurrencyString } from '../../util';
 import { Header } from '../Header';
-import { CartProduct } from '../Router';
 import { CartItem } from './CartItem';
-import { MouseEvent } from 'react';
+import { MouseEvent, useContext } from 'react';
 
-type CartProps = {
-    cart: Map<number, CartProduct>;
-    cartTotal: number;
-};
+export function Cart() {
+    const { cart, cartTotal } = useContext(CartContext);
 
-export function Cart({ cart, cartTotal }: CartProps) {
     return (
         <>
-            <Header activePage="cart" cartTotal={cartTotal} />
+            <Header activePage="cart" />
             <button
                 className="p-1 mt-4 text-white uppercase w-52 bg-medium"
                 onMouseOver={showFakeText}

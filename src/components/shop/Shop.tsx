@@ -21,12 +21,7 @@ export type Product = {
     images: string[];
 };
 
-type ShopProps = {
-    cartTotal: number;
-    addToCart: (e: FormEvent, arg1: Product, arg2: number) => void;
-};
-
-export function Shop({ cartTotal, addToCart }: ShopProps) {
+export function Shop() {
     const { productsJSON, error, loading } = useFetchProducts();
     const [products, setProducts] = useState<Product[]>(productsJSON);
     const [category, setCategory] = useState<CategoryFilter>('all');
@@ -63,7 +58,7 @@ export function Shop({ cartTotal, addToCart }: ShopProps) {
 
     return (
         <>
-            <Header activePage="shop" cartTotal={cartTotal} />
+            <Header activePage="shop" />
             <main className="relative flex flex-col items-center mx-auto w-[min(1200px,90vw)] mb-12">
                 {error ? (
                     <p>{error}</p>
@@ -73,7 +68,6 @@ export function Shop({ cartTotal, addToCart }: ShopProps) {
                     <>
                         <Filters changeFilter={changeFilter} sortProducts={sortProducts} />
                         <Items
-                            addToCart={addToCart}
                             products={products.filter((product) =>
                                 category === 'all' ? product : product.category.id === +category
                             )}

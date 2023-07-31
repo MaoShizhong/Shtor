@@ -1,14 +1,9 @@
 import { Product } from './Shop';
 import { DetailsModal } from './DetailsModal';
 import { getPriceAsCurrencyString } from '../../util';
-import { useEffect, useRef, useState, FormEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-type ItemProps = {
-    product: Product;
-    addToCart: (e: FormEvent, arg1: Product, arg2: number) => void;
-};
-
-export function Item({ product, addToCart }: ItemProps) {
+export function Item({ product }: { product: Product }) {
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
 
     const modalRef = useRef<HTMLDialogElement>(null);
@@ -50,7 +45,6 @@ export function Item({ product, addToCart }: ItemProps) {
                     price={price}
                     description={product.description}
                     images={product.images}
-                    addToCart={addToCart}
                 />
             )}
         </>

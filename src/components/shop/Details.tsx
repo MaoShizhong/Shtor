@@ -1,27 +1,23 @@
-import { useState, FormEvent } from 'react';
+import { useContext, useState } from 'react';
 import { Product } from './Shop';
+import { CartContext } from '../../App';
 
 type DetailsProps = {
     product: Product;
     title: string;
     price: string;
     description: string;
-    addToCart: (e: FormEvent, arg1: Product, arg2: number) => void;
     handleClose: (arg0: boolean) => void;
 };
 
 // Max. 10 purchase quantity at a time
 const quantities = [...Array(11).keys()].slice(1);
+const defaultQuantity = 1;
 
-export function Details({
-    product,
-    title,
-    price,
-    description,
-    addToCart,
-    handleClose,
-}: DetailsProps) {
-    const [currentQuantity, setCurrentQuantity] = useState(1);
+export function Details({ product, title, price, description, handleClose }: DetailsProps) {
+    const [currentQuantity, setCurrentQuantity] = useState(defaultQuantity);
+
+    const { addToCart } = useContext(CartContext);
 
     return (
         <>
@@ -42,7 +38,7 @@ export function Details({
                     <select
                         className="px-2 ml-2"
                         onChange={(e): void => setCurrentQuantity(+e.target.value)}
-                        defaultValue={1}
+                        defaultValue={defaultQuantity}
                     >
                         {quantities.map((quantity, i) => (
                             <option key={i} value={quantity}>

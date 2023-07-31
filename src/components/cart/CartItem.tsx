@@ -1,4 +1,4 @@
-import { CartProduct } from '../Router';
+import { CartProduct } from '../../App';
 import { getPriceAsCurrencyString } from '../../util';
 
 type CartItemProps = {

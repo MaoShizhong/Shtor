@@ -1,7 +1,12 @@
-import { forwardRef, useEffect, useState, FormEvent } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { Images } from './Images';
 import { Details } from './Details';
 import { Product } from './Shop';
+
+export type Image = {
+    image: string;
+    index: string;
+};
 
 type DetailsModalProps = {
     handleClose: (arg0: boolean) => void;
@@ -10,16 +15,10 @@ type DetailsModalProps = {
     price: string;
     description: string;
     images: string[];
-    addToCart: (e: FormEvent, arg1: Product, arg2: number) => void;
-};
-
-export type Image = {
-    image: string;
-    index: string;
 };
 
 export const DetailsModal = forwardRef<HTMLDialogElement, DetailsModalProps>(function DetailsModal(
-    { handleClose, product, title, price, description, images, addToCart },
+    { handleClose, product, title, price, description, images },
     modalRef
 ) {
     const [activeImage, setActiveImage] = useState<Image>({ image: images[0], index: '0' });
@@ -46,7 +45,6 @@ export const DetailsModal = forwardRef<HTMLDialogElement, DetailsModalProps>(fun
                 title={title}
                 price={price}
                 description={description}
-                addToCart={addToCart}
                 handleClose={handleClose}
             />
         </dialog>
