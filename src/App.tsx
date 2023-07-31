@@ -1,5 +1,5 @@
 import Router from './components/Router.tsx';
-import { FormEvent, ChangeEvent, createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 import { Product } from './components/shop/Shop.tsx';
 
 type ID = number;
@@ -11,12 +11,8 @@ export type CartProduct = Product & {
 type Cart = {
     cart: Map<ID, CartProduct>;
     cartTotal: number;
-    addToCart: (event: FormEvent | ChangeEvent, product: Product, quantityToAdd: number) => void;
-    removeFromCart: (
-        event: FormEvent | ChangeEvent,
-        product: Product,
-        quantityToAdd: number
-    ) => void;
+    addToCart: (product: Product, quantityToAdd: number) => void;
+    removeFromCart: (product: Product, quantityToRemove: number) => void;
 };
 
 export const CartContext = createContext<Cart>({
@@ -30,38 +26,32 @@ export default function App() {
     const [cart, setCart] = useState(new Map<ID, CartProduct>());
     const [cartTotal, setCartTotal] = useState(0);
 
-    function addToCart(e: FormEvent, product: Product, quantity: number): void {
-        e.preventDefault();
-
+    function addToCart(product: Product, quantityToAdd: number): void {
         const productInCart = cart.get(product.id);
 
         if (productInCart) {
-            productInCart.quantity += quantity;
+            productInCart.quantity += quantityToAdd;
             setCart(cart.set(product.id, productInCart));
         } else {
-            const newProduct = { ...product, quantity: quantity };
+            const newProduct = { ...product, quantity: quantityToAdd };
             setCart(cart.set(product.id, newProduct));
         }
 
-        setCartTotal(cartTotal + product.price * quantity);
+        setCartTotal(cartTotal + product.price * quantityToAdd);
     }
 
-    function removeFromCart(e: FormEvent, product: Product, quantity: number): void {
-        e.preventDefault();
-
+    function removeFromCart(product: Product, quantityToRemove: number): void {
         const productInCart = cart.get(product.id);
 
-        if (productInCart) {
-            productInCart.quantity -= quantity;
-            setCart(cart.set(product.id, productInCart));
+        productInCart!.quantity -= quantityToRemove;
+        setCart(cart.set(product.id, productInCart!));
 
-            if (productInCart.quantity === 0) {
-                cart.delete(product.id);
-                setCart(cart);
-            }
+        if (productInCart!.quantity === 0) {
+            cart.delete(product.id);
+            setCart(cart);
         }
 
-        setCartTotal(cartTotal - product.price * quantity);
+        setCartTotal(cartTotal - product.price * quantityToRemove);
     }
 
     return (

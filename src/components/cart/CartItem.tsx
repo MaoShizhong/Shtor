@@ -19,9 +19,9 @@ export function CartItem({ item }: CartItemProps) {
         const newQuantity: number = +dropdown.value;
 
         if (newQuantity > item.quantity) {
-            addToCart(e, item, newQuantity - item.quantity);
+            addToCart(item, newQuantity - item.quantity);
         } else {
-            removeFromCart(e, item, item.quantity - newQuantity);
+            removeFromCart(item, item.quantity - newQuantity);
         }
     }
 
@@ -34,16 +34,20 @@ export function CartItem({ item }: CartItemProps) {
                         <h1 className="font-bold">{item.title}</h1>
                         <div className="flex items-center gap-2">
                             <select defaultValue={item.quantity} onChange={handleChange}>
-                                {quantities.map((quantity) => (
-                                    <option value={quantity}>{quantity}</option>
-                                ))}
+                                {quantities.map(
+                                    (quantity, i): JSX.Element => (
+                                        <option key={i} value={quantity}>
+                                            {quantity}
+                                        </option>
+                                    )
+                                )}
                             </select>
                             <p>x {unitValue}</p>
                         </div>
                     </div>
                 </div>
             </td>
-            <td className="self-center">{orderValue}</td>
+            <td className="self-center text-right">{orderValue}</td>
         </>
     );
 }

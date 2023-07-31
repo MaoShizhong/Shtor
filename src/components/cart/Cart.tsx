@@ -19,14 +19,17 @@ export function Cart() {
             </button>
             <table className="mx-auto my-8">
                 <thead>
-                    <tr className="hidden sm:visible">
+                    <tr className="hidden sm:table-row">
                         <th>Items</th>
                         <th>Order Value</th>
                     </tr>
                 </thead>
                 <tbody>
                     {[...cart.values()].map((item, i) => (
-                        <tr key={i} className="flex sm:table-row border-y border-soft">
+                        <tr
+                            key={i}
+                            className="flex justify-between sm:table-row border-y border-soft"
+                        >
                             <CartItem item={item} />
                         </tr>
                     ))}
