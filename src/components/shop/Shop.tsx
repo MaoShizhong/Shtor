@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { Header } from '../Header';
 import { Filters } from './Filters';
 import { Items } from './Items';
+import { ScrollToTopButton } from './ScrollToTopButton';
 
-export type CategoryFilter = 'all' | '1' | '2' | '3' | '4' | '5';
-export type SortFilter = 'alphaAsc' | 'alphaDesc' | 'priceAsc' | 'priceDesc';
+export type SortFilter = 'popular' | 'alphaAsc' | 'alphaDesc' | 'priceAsc' | 'priceDesc';
 
 export type Category = {
     id: number;
@@ -21,12 +21,12 @@ export type Product = {
     images: string[];
 };
 
-export function Shop() {
-    const { productsJSON, error, loading } = useFetchProducts();
+export function Shop({ isScrolled }: { isScrolled: boolean }) {
+    const { productsJSON, error, loading, categoryCount } = useFetchProducts();
     const [products, setProducts] = useState<Product[]>(productsJSON);
-    const [category, setCategory] = useState<CategoryFilter>('all');
+    const [category, setCategory] = useState(0);
 
-    function changeFilter(category: CategoryFilter): void {
+    function changeFilter(category: number): void {
         setCategory(category);
     }
 
@@ -66,14 +66,19 @@ export function Shop() {
                     <p className="mt-12">Loading products...</p>
                 ) : (
                     <>
-                        <Filters changeFilter={changeFilter} sortProducts={sortProducts} />
+                        <Filters
+                            categoryCount={categoryCount}
+                            changeFilter={changeFilter}
+                            sortProducts={sortProducts}
+                        />
                         <Items
                             products={products.filter((product) =>
-                                category === 'all' ? product : product.category.id === +category
+                                category ? product.category.id === category : product
                             )}
                         />
                     </>
                 )}
+                {isScrolled && <ScrollToTopButton />}
             </main>
         </>
     );
@@ -83,6 +88,7 @@ function useFetchProducts() {
     const [productsJSON, setProductsJSON] = useState<Product[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
+    const [categoryCount, setCategoryCount] = useState(0);
 
     useEffect((): void => {
         async function fetchProducts(): Promise<void> {
@@ -97,7 +103,8 @@ function useFetchProducts() {
 
                 const products = await res.json();
 
-                setProductsJSON(products.slice(1));
+                setProductsJSON(products);
+                setCategoryCount(getCategoryCount(products));
             } catch (e) {
                 setError((e as Error).message);
             } finally {
@@ -108,7 +115,19 @@ function useFetchProducts() {
         fetchProducts();
     }, []);
 
-    return { productsJSON, error, loading };
+    return { productsJSON, error, loading, categoryCount };
+}
+
+function getCategoryCount(products: Product[]): number {
+    const categoryIDs: number[] = [];
+
+    products.forEach((product): void => {
+        if (!categoryIDs.includes(product.category.id)) {
+            categoryIDs.push(product.category.id);
+        }
+    });
+
+    return categoryIDs.length;
 }
 
 function sortAscending(a: string | number, b: string | number): number {
@@ -122,4 +141,3 @@ function sortDescending(a: string | number, b: string | number): number {
     else if (a > b) return -1;
     else return 0;
 }
-4;

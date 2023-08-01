@@ -1,10 +1,11 @@
 import { CartContext } from '../../App';
 import { getPriceAsCurrencyString } from '../../util';
 import { Header } from '../Header';
+import { ScrollToTopButton } from '../shop/ScrollToTopButton';
 import { CartItem } from './CartItem';
 import { MouseEvent, useContext } from 'react';
 
-export function Cart() {
+export function Cart({ isScrolled }: { isScrolled: boolean }) {
     const { cart, cartTotal } = useContext(CartContext);
 
     return (
@@ -17,7 +18,7 @@ export function Cart() {
             >
                 Fake checkout
             </button>
-            <table className="mx-auto my-8">
+            <table className="mx-auto my-8 max-w-[95vw]">
                 <thead>
                     {cartTotal ? (
                         <tr className="hidden sm:table-row">
@@ -28,29 +29,26 @@ export function Cart() {
                 </thead>
                 <tbody>
                     {[...cart.values()].map((item, i) => (
-                        <tr
-                            key={i}
-                            className="flex justify-between sm:table-row border-y border-soft"
-                        >
-                            <CartItem item={item} />
-                        </tr>
+                        <CartItem key={i} item={item} />
                     ))}
                 </tbody>
                 <tfoot>
                     <tr>
                         {cartTotal ? (
                             <td className="pt-8 text-right" colSpan={3}>
-                                <b>Total (VAT + free shipping inc.) : </b>{' '}
+                                <b>Total (VAT + free shipping inc.)</b>
+                                <br />
                                 {getPriceAsCurrencyString(cartTotal)}
                             </td>
                         ) : (
                             <td className="text-center" colSpan={2}>
-                                Cart is empty!
+                                Your cart is empty!
                             </td>
                         )}
                     </tr>
                 </tfoot>
             </table>
+            {isScrolled && <ScrollToTopButton />}
         </>
     );
 }

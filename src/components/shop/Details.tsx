@@ -1,4 +1,4 @@
-import { FormEvent, useContext, useEffect, useState } from 'react';
+import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { Product } from './Shop';
 import { CartContext } from '../../App';
 import { MAX_QUANTITY_PER_ITEM } from '../../util';
@@ -20,14 +20,15 @@ export function Details({ product, title, price, description, handleClose }: Det
 
     const { cart, addToCart } = useContext(CartContext);
 
+    const dropdown = useRef<HTMLSelectElement>(null);
+
     useEffect((): void => {
         const productInCart = cart.get(product.id);
-        const addBtn = document.querySelector('#add-to-cart') as HTMLButtonElement;
 
         if (productInCart && productInCart.quantity + currentQuantity > MAX_QUANTITY_PER_ITEM) {
-            addBtn!.setCustomValidity('Max. 10 per item allowed in cart');
+            dropdown.current?.setCustomValidity('Max. 10 per item allowed in cart');
         } else {
-            addBtn!.setCustomValidity('');
+            dropdown.current?.setCustomValidity('');
         }
     }, [currentQuantity, cart, product.id]);
 
@@ -52,6 +53,7 @@ export function Details({ product, title, price, description, handleClose }: Det
                         className="px-2 ml-2"
                         onChange={(e): void => setCurrentQuantity(+e.target.value)}
                         defaultValue={defaultQuantity}
+                        ref={dropdown}
                     >
                         {quantities.map((quantity, i) => (
                             <option key={i} value={quantity}>
@@ -60,11 +62,7 @@ export function Details({ product, title, price, description, handleClose }: Det
                         ))}
                     </select>
                 </label>
-                <button
-                    id="add-to-cart"
-                    type="submit"
-                    className="px-2 ml-2 border border-dashed border-soft"
-                >
+                <button type="submit" className="px-2 ml-2 border border-dashed border-soft">
                     Add to cart
                 </button>
             </form>

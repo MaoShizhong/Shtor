@@ -1,40 +1,59 @@
-import { CategoryFilter, SortFilter } from './Shop';
+import { SortFilter } from './Shop';
 
 type FiltersProps = {
-    changeFilter: (e: CategoryFilter) => void;
+    categoryCount: number;
+    changeFilter: (e: number) => void;
     sortProducts: (e: SortFilter) => void;
 };
 
-export function Filters({ changeFilter, sortProducts }: FiltersProps) {
+type SortOptions = {
+    [index: string]: string;
+};
+
+export function Filters({ categoryCount, changeFilter, sortProducts }: FiltersProps) {
+    // categoryCount + 1 to account for 0 (for all categories);
+    const categories = [...Array(categoryCount + 1).keys()];
+
     return (
         <div className="sticky top-0 flex justify-between w-full gap-8 pt-4 text-sm text-center bg-white sm:top-36 sm:justify-end">
-            <label className="flex flex-col items-center mb-4 sm:flex-row">
+            <label className="flex flex-col items-center mb-4 sm:flex-row max-w-[40vw]">
                 Filter:
                 <select
-                    className="p-1 sm:ml-2 "
-                    onChange={(e): void => changeFilter(e.target.value as CategoryFilter)}
+                    className="w-full p-1 sm:ml-2"
+                    onChange={(e): void => changeFilter(+e.target.value)}
                 >
-                    <option value="all">Show All</option>
-                    <option value={1}>Arbitrary category 1</option>
-                    <option value={2}>Arbitrary category 2</option>
-                    <option value={3}>Arbitrary category 3</option>
-                    <option value={4}>Arbitrary category 4</option>
-                    <option value={5}>Arbitrary category 5</option>
+                    {categories.map((categoryID, i) => {
+                        return (
+                            <option key={i} value={categoryID}>
+                                {categoryID ? `Arbitrary Category ${categoryID}` : 'Show All'}
+                            </option>
+                        );
+                    })}
                 </select>
             </label>
-            <label className="flex flex-col items-center mb-4 sm:flex-row">
+            <label className="flex flex-col items-center mb-4 sm:flex-row max-w-[40vw]">
                 Sort:
                 <select
-                    className="p-1 sm:ml-2 "
+                    className="w-full p-1 sm:ml-2"
                     onChange={(e): void => sortProducts(e.target.value as SortFilter)}
                 >
-                    <option value="popular">Most Popular</option>
-                    <option value="alphaAsc">Alphabetical: A-Z</option>
-                    <option value="alphaDesc">Alphabetical: Z-A</option>
-                    <option value="priceAsc">Price: Low - High</option>
-                    <option value="priceDesc">Price: High - Low</option>
+                    {Object.keys(sorts).map((option, i) => {
+                        return (
+                            <option key={i} value={option}>
+                                {sorts[option]}
+                            </option>
+                        );
+                    })}
                 </select>
             </label>
         </div>
     );
 }
+
+const sorts: SortOptions = {
+    popular: 'Most Popular',
+    alphaAsc: 'Alphabetical: A-Z',
+    alphaDesc: 'Alphabetical: Z-A',
+    priceAsc: 'Price: Low - High',
+    priceDesc: 'Price: High - Low',
+};
