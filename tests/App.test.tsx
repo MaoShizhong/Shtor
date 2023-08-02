@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 describe('App renders', () => {
     render(
         <BrowserRouter>
-            <Home />
+            <Home isScrolled={false} />
         </BrowserRouter>
     );
     const header = screen.getByRole('banner');
