@@ -19,7 +19,7 @@ export function ImageCarousel() {
 
     return (
         <div
-            className="relative flex overflow-hidden max-h-[460px] max-w-[1000px] mt-6 mb-1 sm:mb-2 sm:mt-12"
+            className="relative flex overflow-hidden max-h-[460px] w-full mt-6 mb-1 sm:mb-2 sm:mt-12"
             aria-label="image carousel"
         >
             <ArrowControl

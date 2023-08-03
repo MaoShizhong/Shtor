@@ -36,7 +36,10 @@ export const DetailsModal = forwardRef<HTMLDialogElement, DetailsModalProps>(fun
             className="flex flex-col w-[min(80vw,400px)] py-4 px-6 border-2 border-main text-main backdrop:backdrop-blur-sm backdrop:backdrop-brightness-50"
             ref={modalRef}
         >
-            <button className="self-end px-2 " onClick={(): void => handleClose(false)}>
+            <button
+                className="self-end px-2 hover:text-cyan-950"
+                onClick={(): void => handleClose(false)}
+            >
                 Close
             </button>
             <Images images={images} activeImage={activeImage} setActiveImage={setActiveImage} />

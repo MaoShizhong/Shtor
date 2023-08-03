@@ -26,7 +26,7 @@ export function Filters({
                 Filter:
                 <select
                     defaultValue={activeCategory}
-                    className="w-full p-1 sm:ml-2"
+                    className="w-full p-1 sm:ml-2 hover:cursor-pointer"
                     onChange={(e): void => changeFilter(+e.target.value)}
                 >
                     {categories.map((categoryID, i) => {
@@ -41,7 +41,7 @@ export function Filters({
             <label className="flex flex-col items-center mb-4 sm:flex-row max-w-[40vw]">
                 Sort:
                 <select
-                    className="w-full p-1 sm:ml-2"
+                    className="w-full p-1 sm:ml-2 hover:cursor-pointer"
                     onChange={(e): void => sortProducts(e.target.value as SortFilter)}
                 >
                     {Object.keys(sorts).map((option, i) => {

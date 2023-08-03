@@ -3,15 +3,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.no-scrollbar {
-    scrollbar-width: none;
-}
-
-*:not(select)::-webkit-scrollbar {
-    width: 0;
-}
-
-select {
-    scrollbar-width: unset;
-}

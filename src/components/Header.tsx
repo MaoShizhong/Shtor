@@ -18,29 +18,29 @@ export function Header({ activePage }: { activePage: Page }) {
     });
 
     return (
-        <header className="top-0 z-10 flex flex-col w-full py-4 bg-white border-b sm:sticky h-36 border-soft">
-            <Link to="/" className="self-center h-2/3">
+        <header className="top-0 z-10 flex flex-col w-full py-4 bg-slate-50 sm:sticky h-36">
+            <Link to="/" className="self-center mb-4 h-2/3">
                 <img src="./logo.png" alt="Shtor logo" className="max-h-16"></img>
             </Link>
-            <nav className="flex items-center pt-4 pb-1 uppercase transition-all md:gap-24 justify-evenly md:justify-center h-1/3 decoration-medium">
+            <nav className="flex items-center py-5 uppercase transition-all bg-cyan-950 md:gap-24 justify-evenly md:justify-center h-1/3 decoration-slate-50 text-slate-50">
                 <Link
                     to="/"
                     id="home"
-                    className="transition-all cursor-pointer hover:text-slate-800 underline-offset-8"
+                    className="transition-all cursor-pointer hover:text-soft hover:decoration-soft underline-offset-[6px]"
                 >
                     Home
                 </Link>
                 <Link
                     to="/shop"
                     id="shop"
-                    className="transition-all cursor-pointer hover:text-slate-800 underline-offset-8"
+                    className="transition-all cursor-pointer hover:text-soft hover:decoration-soft underline-offset-[6px]"
                 >
                     Shop
                 </Link>
                 <Link
                     to="/cart"
                     id="cart"
-                    className="transition-all cursor-pointer hover:text-slate-800 underline-offset-8 "
+                    className="transition-all cursor-pointer hover:text-soft hover:decoration-soft underline-offset-[6px]"
                 >
                     {cartTotal ? `Cart - ${totalCost}` : 'Cart'}
                 </Link>

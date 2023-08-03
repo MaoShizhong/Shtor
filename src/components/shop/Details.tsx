@@ -62,7 +62,10 @@ export function Details({ product, title, price, description, handleClose }: Det
                         ))}
                     </select>
                 </label>
-                <button type="submit" className="px-2 ml-2 border border-dashed border-soft">
+                <button
+                    type="submit"
+                    className="px-2 ml-2 border border-dashed border-soft hover:border-cyan-950 hover:text-cyan-950"
+                >
                     Add to cart
                 </button>
             </form>

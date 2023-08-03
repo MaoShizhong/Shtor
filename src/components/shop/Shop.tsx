@@ -4,6 +4,7 @@ import { Filters } from './Filters';
 import { Items } from './Items';
 import { ScrollToTopButton } from './ScrollToTopButton';
 import { useLocation } from 'react-router-dom';
+import { Footer } from '../Footer';
 
 export type SortFilter = 'popular' | 'alphaAsc' | 'alphaDesc' | 'priceAsc' | 'priceDesc';
 
@@ -68,7 +69,7 @@ export function Shop({ isScrolled }: { isScrolled: boolean }) {
     return (
         <>
             <Header activePage="shop" />
-            <main className="relative flex flex-col items-center mx-auto w-[min(1200px,90vw)] mb-12">
+            <main className="relative flex-1 flex flex-col items-center mx-auto w-[min(1200px,90vw)] mb-12">
                 {error ? (
                     <p>{error}</p>
                 ) : loading ? (
@@ -90,6 +91,7 @@ export function Shop({ isScrolled }: { isScrolled: boolean }) {
                 )}
                 {isScrolled && <ScrollToTopButton />}
             </main>
+            <Footer />
         </>
     );
 }

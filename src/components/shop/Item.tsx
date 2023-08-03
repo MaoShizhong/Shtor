@@ -19,7 +19,7 @@ export function Item({ product }: { product: Product }) {
 
     return (
         <>
-            <div className="flex flex-col p-4 border border-soft">
+            <div className="flex flex-col p-4 border shadow-lg border-soft">
                 <img
                     className="border border-soft"
                     src={product.images[0]}
@@ -29,7 +29,7 @@ export function Item({ product }: { product: Product }) {
                 <div className="flex justify-between mt-auto">
                     <button
                         onClick={showDetails}
-                        className="px-2 transition-all border border-dashed hover:border-solid hover:text-slate-800 border-soft"
+                        className="px-2 transition-all border border-dashed hover:text-cyan-950 hover:border-cyan-950 border-soft"
                     >
                         Details
                     </button>
