@@ -9,6 +9,9 @@ export default {
                 soft: '#b5b5b8',
                 accent: '#301E1E',
             },
+            width: {
+                main: 'min(1200px,90vw)',
+            },
         },
         fontFamily: {
             spectral: ['Spectral', 'serif', 'system-ui'],

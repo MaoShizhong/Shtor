@@ -10,7 +10,7 @@ export function FeaturedAdvert({ product, image }: FeaturedAdvertProps) {
             style={{ backgroundImage: `url(./${image}.jpg)` }}
             aria-label="advert for new pianos"
         >
-            <div className="flex flex-col justify-center w-full h-full text-center bg-white/60 text-accent">
+            <div className="flex flex-col items-center justify-center w-full h-full text-center bg-white/60 text-accent">
                 <h1 className="mt-8 text-5xl font-bold sm:text-7xl">NEW</h1>
                 <h2 className="text-2xl sm:text-4xl">{product}</h2>
                 <hr className="w-5/6 sm:my-4 border-accent" />

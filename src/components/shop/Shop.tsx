@@ -69,7 +69,7 @@ export function Shop({ isScrolled }: { isScrolled: boolean }) {
     return (
         <>
             <Header activePage="shop" />
-            <main className="relative flex-1 flex flex-col items-center mx-auto w-[min(1200px,90vw)] mb-12">
+            <main className="relative flex flex-col items-center flex-1 mx-auto mb-12 w-main">
                 {error ? (
                     <p>{error}</p>
                 ) : loading ? (
