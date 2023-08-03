@@ -3,6 +3,7 @@ import { Header } from '../Header';
 import { Filters } from './Filters';
 import { Items } from './Items';
 import { ScrollToTopButton } from './ScrollToTopButton';
+import { useLocation } from 'react-router-dom';
 
 export type SortFilter = 'popular' | 'alphaAsc' | 'alphaDesc' | 'priceAsc' | 'priceDesc';
 
@@ -24,10 +25,20 @@ export type Product = {
 export function Shop({ isScrolled }: { isScrolled: boolean }) {
     const { productsJSON, error, loading, categoryCount } = useFetchProducts();
     const [products, setProducts] = useState<Product[]>(productsJSON);
-    const [category, setCategory] = useState(0);
+    const [currentCategory, setCurrentCategory] = useState(0);
+
+    const homepageLink = useLocation();
+
+    useEffect((): void => setProducts(productsJSON), [productsJSON]);
+    useEffect((): void => {
+        if (homepageLink.state) {
+            const { categoryToSet } = homepageLink.state;
+            setCurrentCategory(categoryToSet);
+        }
+    }, [homepageLink.state]);
 
     function changeFilter(category: number): void {
-        setCategory(category);
+        setCurrentCategory(category);
     }
 
     function sortProducts(sort: SortFilter): void {
@@ -54,8 +65,6 @@ export function Shop({ isScrolled }: { isScrolled: boolean }) {
         setProducts(sortedProducts);
     }
 
-    useEffect((): void => setProducts(productsJSON), [productsJSON]);
-
     return (
         <>
             <Header activePage="shop" />
@@ -67,13 +76,14 @@ export function Shop({ isScrolled }: { isScrolled: boolean }) {
                 ) : (
                     <>
                         <Filters
+                            activeCategory={currentCategory}
                             categoryCount={categoryCount}
                             changeFilter={changeFilter}
                             sortProducts={sortProducts}
                         />
                         <Items
                             products={products.filter((product) =>
-                                category ? product.category.id === category : product
+                                currentCategory ? product.category.id === currentCategory : product
                             )}
                         />
                     </>

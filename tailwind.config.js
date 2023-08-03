@@ -7,6 +7,7 @@ export default {
                 main: '#636365',
                 medium: '#888787',
                 soft: '#b5b5b8',
+                accent: '#301E1E',
             },
         },
         fontFamily: {

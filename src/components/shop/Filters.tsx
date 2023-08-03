@@ -1,6 +1,7 @@
 import { SortFilter } from './Shop';
 
 type FiltersProps = {
+    activeCategory: number;
     categoryCount: number;
     changeFilter: (e: number) => void;
     sortProducts: (e: SortFilter) => void;
@@ -10,7 +11,12 @@ type SortOptions = {
     [index: string]: string;
 };
 
-export function Filters({ categoryCount, changeFilter, sortProducts }: FiltersProps) {
+export function Filters({
+    activeCategory,
+    categoryCount,
+    changeFilter,
+    sortProducts,
+}: FiltersProps) {
     // categoryCount + 1 to account for 0 (for all categories);
     const categories = [...Array(categoryCount + 1).keys()];
 
@@ -19,6 +25,7 @@ export function Filters({ categoryCount, changeFilter, sortProducts }: FiltersPr
             <label className="flex flex-col items-center mb-4 sm:flex-row max-w-[40vw]">
                 Filter:
                 <select
+                    defaultValue={activeCategory}
                     className="w-full p-1 sm:ml-2"
                     onChange={(e): void => changeFilter(+e.target.value)}
                 >

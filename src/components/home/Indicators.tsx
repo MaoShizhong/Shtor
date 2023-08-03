@@ -9,7 +9,6 @@ type IndicatorsProps = {
 export function Indicators({ images, currentIndex, setCurrentIndex }: IndicatorsProps) {
     useEffect((): void => {
         const indicators = document.querySelectorAll<HTMLButtonElement>(`button[data-index]`);
-        console.log(indicators, currentIndex);
 
         indicators!.forEach((btn) => {
             btn.dataset.index === currentIndex.toString()
