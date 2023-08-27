@@ -10,7 +10,7 @@ export function Images({ images, activeImage, setActiveImage }: ImagesProps) {
     return (
         <div className="flex flex-col self-center gap-2 my-4 sm:justify-between sm:flex-row">
             <div className="flex sm:flex-col justify-evenly sm:w-[13%]">
-                {images.map((image, i) => (
+                {images.slice(0, 3).map((image, i) => (
                     <button
                         key={i}
                         id={i.toString()}

@@ -20,12 +20,8 @@ export function Item({ product }: { product: Product }) {
     return (
         <>
             <div className="flex flex-col p-4 border shadow-lg border-soft">
-                <img
-                    className="border border-soft"
-                    src={product.images[0]}
-                    alt="product image"
-                ></img>
-                <p className="mt-2 mb-4">{product.title}</p>
+                <img src={product.images[0]} alt="product image"></img>
+                <h1 className="pt-2 mt-4 mb-4 border-t border-soft">{product.title}</h1>
                 <div className="flex justify-between mt-auto">
                     <button
                         onClick={showDetails}
@@ -39,7 +35,7 @@ export function Item({ product }: { product: Product }) {
             {isDetailsModalOpen && (
                 <DetailsModal
                     ref={modalRef}
-                    handleClose={setIsDetailsModalOpen}
+                    closeModal={setIsDetailsModalOpen}
                     product={product}
                     title={product.title}
                     price={price}

@@ -8,14 +8,14 @@ type DetailsProps = {
     title: string;
     price: string;
     description: string;
-    handleClose: (isModalOpen: boolean) => void;
+    closeModal: (isModalOpen: boolean) => void;
 };
 
 // Max. 10 purchase quantity at a time
 const quantities = [...Array(11).keys()].slice(1);
 const defaultQuantity = 1;
 
-export function Details({ product, title, price, description, handleClose }: DetailsProps) {
+export function Details({ product, title, price, description, closeModal }: DetailsProps) {
     const [currentQuantity, setCurrentQuantity] = useState(defaultQuantity);
 
     const { cart, addToCart } = useContext(CartContext);
@@ -36,7 +36,7 @@ export function Details({ product, title, price, description, handleClose }: Det
         e.preventDefault();
 
         addToCart(product, currentQuantity);
-        handleClose(false);
+        closeModal(false);
     }
 
     return (

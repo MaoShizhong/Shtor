@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
-import { toTitleCase } from '../../util';
 
 type CategoryTileProps = {
+    index: number;
     image: string;
-    category: number;
+    category: string;
 };
 
-export function CategoryTile({ image, category }: CategoryTileProps) {
+export function CategoryTile({ index, image, category }: CategoryTileProps) {
     return (
         <Link
             to="/shop"
@@ -15,7 +15,7 @@ export function CategoryTile({ image, category }: CategoryTileProps) {
             style={{ backgroundImage: `url(./${image}.jpg)` }}
         >
             <h1 className="w-full h-full grid place-items-center backdrop-brightness-[40%] text-xl">
-                {toTitleCase(image)}
+                Category {index}
             </h1>
         </Link>
     );

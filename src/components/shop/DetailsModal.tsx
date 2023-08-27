@@ -9,7 +9,7 @@ export type Image = {
 };
 
 type DetailsModalProps = {
-    handleClose: (arg0: boolean) => void;
+    closeModal: (isModalOpen: boolean) => void;
     product: Product;
     title: string;
     price: string;
@@ -18,11 +18,10 @@ type DetailsModalProps = {
 };
 
 export const DetailsModal = forwardRef<HTMLDialogElement, DetailsModalProps>(function DetailsModal(
-    { handleClose, product, title, price, description, images },
+    { closeModal, product, title, price, description, images },
     modalRef
 ) {
     const [activeImage, setActiveImage] = useState<Image>({ image: images[0], index: '0' });
-
     useEffect((): void => {
         const prevImage = document.querySelector('.outline');
         prevImage?.classList.remove('outline');
@@ -33,12 +32,12 @@ export const DetailsModal = forwardRef<HTMLDialogElement, DetailsModalProps>(fun
 
     return (
         <dialog
-            className="flex flex-col w-[min(80vw,400px)] py-4 px-6 border-2 border-main text-main backdrop:backdrop-blur-sm backdrop:backdrop-brightness-50"
+            className="flex flex-col w-[min(80vw,400px)]             py-4 px-6 border-2 border-main text-main backdrop:backdrop-blur-sm               backdrop:backdrop-brightness-50"
             ref={modalRef}
         >
             <button
                 className="self-end px-2 hover:text-cyan-950"
-                onClick={(): void => handleClose(false)}
+                onClick={(): void => closeModal(false)}
             >
                 Close
             </button>
@@ -48,7 +47,7 @@ export const DetailsModal = forwardRef<HTMLDialogElement, DetailsModalProps>(fun
                 title={title}
                 price={price}
                 description={description}
-                handleClose={handleClose}
+                closeModal={closeModal}
             />
         </dialog>
     );

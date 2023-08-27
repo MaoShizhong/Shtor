@@ -8,25 +8,22 @@ import { Footer } from '../Footer';
 
 export type SortFilter = 'popular' | 'alphaAsc' | 'alphaDesc' | 'priceAsc' | 'priceDesc';
 
-export type Category = {
-    id: number;
-    name: string;
-    image: string;
-};
-
 export type Product = {
     id: number;
     title: string;
     price: number;
     description: string;
-    category: Category;
+    category: string;
     images: string[];
 };
 
-export function Shop({ isScrolled }: { isScrolled: boolean }) {
-    const { productsJSON, error, loading, categoryCount } = useFetchProducts();
+type ShopProps = { isScrolled: boolean };
+
+export function Shop({ isScrolled }: ShopProps) {
+    const { productsJSON, error, loading, categories } = useFetchProducts();
+
     const [products, setProducts] = useState<Product[]>(productsJSON);
-    const [currentCategory, setCurrentCategory] = useState(0);
+    const [currentCategory, setCurrentCategory] = useState('all');
 
     const homepageLink = useLocation();
 
@@ -38,7 +35,7 @@ export function Shop({ isScrolled }: { isScrolled: boolean }) {
         }
     }, [homepageLink.state]);
 
-    function changeFilter(category: number): void {
+    function changeFilter(category: string): void {
         setCurrentCategory(category);
     }
 
@@ -78,13 +75,15 @@ export function Shop({ isScrolled }: { isScrolled: boolean }) {
                     <>
                         <Filters
                             activeCategory={currentCategory}
-                            categoryCount={categoryCount}
+                            categories={categories}
                             changeFilter={changeFilter}
                             sortProducts={sortProducts}
                         />
                         <Items
                             products={products.filter((product) =>
-                                currentCategory ? product.category.id === currentCategory : product
+                                currentCategory === 'all'
+                                    ? product
+                                    : product.category === currentCategory
                             )}
                         />
                     </>
@@ -100,23 +99,25 @@ function useFetchProducts() {
     const [productsJSON, setProductsJSON] = useState<Product[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
-    const [categoryCount, setCategoryCount] = useState(0);
+    const [categories, setCategories] = useState<string[]>([]);
 
     useEffect((): void => {
         async function fetchProducts(): Promise<void> {
             try {
-                const res = await fetch(
-                    'https://api.escuelajs.co/api/v1/products?offset=0&limit=190'
-                );
+                const res = await fetch('https://dummyjson.com/products?limit=100');
 
                 if (!res.ok) {
                     setError(`${res.status} server error - could not fetch products`);
+                    return;
                 }
 
                 const products = await res.json();
+                const allCategories: string[] = products.products.map(
+                    (product: Product): string => product.category
+                );
 
-                setProductsJSON(products);
-                setCategoryCount(getCategoryCount(products));
+                setProductsJSON(products.products);
+                setCategories([...new Set(allCategories)]);
             } catch (e) {
                 setError((e as Error).message);
             } finally {
@@ -127,19 +128,7 @@ function useFetchProducts() {
         fetchProducts();
     }, []);
 
-    return { productsJSON, error, loading, categoryCount };
-}
-
-function getCategoryCount(products: Product[]): number {
-    const categoryIDs: number[] = [];
-
-    products.forEach((product): void => {
-        if (!categoryIDs.includes(product.category.id)) {
-            categoryIDs.push(product.category.id);
-        }
-    });
-
-    return categoryIDs.length;
+    return { productsJSON, error, loading, categories };
 }
 
 function sortAscending(a: string | number, b: string | number): number {

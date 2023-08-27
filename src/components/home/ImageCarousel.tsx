@@ -28,12 +28,6 @@ export function ImageCarousel() {
                 currentIndex={currentIndex}
                 setCurrentIndex={setCurrentIndex}
             />
-            <ArrowControl
-                direction={'right'}
-                imageCount={images.length}
-                currentIndex={currentIndex}
-                setCurrentIndex={setCurrentIndex}
-            />
             {images.map((image, i): JSX.Element => {
                 return (
                     <img
@@ -47,7 +41,12 @@ export function ImageCarousel() {
                     />
                 );
             })}
-
+            <ArrowControl
+                direction={'right'}
+                imageCount={images.length}
+                currentIndex={currentIndex}
+                setCurrentIndex={setCurrentIndex}
+            />
             <Indicators
                 images={images}
                 currentIndex={currentIndex}

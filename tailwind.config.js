@@ -12,9 +12,9 @@ export default {
             width: {
                 main: 'min(1200px,90vw)',
             },
-        },
-        fontFamily: {
-            spectral: ['Spectral', 'serif', 'system-ui'],
+            fontFamily: {
+                spectral: ['Spectral', 'serif', 'system-ui'],
+            },
         },
     },
     plugins: [],

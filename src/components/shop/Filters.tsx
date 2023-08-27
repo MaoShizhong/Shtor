@@ -1,25 +1,18 @@
 import { SortFilter } from './Shop';
+import { toTitleCase } from '../../util';
 
 type FiltersProps = {
-    activeCategory: number;
-    categoryCount: number;
-    changeFilter: (e: number) => void;
-    sortProducts: (e: SortFilter) => void;
+    activeCategory: string;
+    categories: string[];
+    changeFilter: (category: string) => void;
+    sortProducts: (sort: SortFilter) => void;
 };
 
 type SortOptions = {
     [index: string]: string;
 };
 
-export function Filters({
-    activeCategory,
-    categoryCount,
-    changeFilter,
-    sortProducts,
-}: FiltersProps) {
-    // categoryCount + 1 to account for 0 (for all categories);
-    const categories = [...Array(categoryCount + 1).keys()];
-
+export function Filters({ activeCategory, categories, changeFilter, sortProducts }: FiltersProps) {
     return (
         <div className="sticky top-0 flex justify-center w-screen sm:top-36 bg-slate-50">
             <div className="flex justify-between gap-8 pt-4 text-sm text-center w-main sm:justify-end">
@@ -28,15 +21,18 @@ export function Filters({
                     <select
                         defaultValue={activeCategory}
                         className="w-full p-1 sm:ml-2 hover:cursor-pointer"
-                        onChange={(e): void => changeFilter(+e.target.value)}
+                        onChange={(e): void => changeFilter(e.target.value)}
                     >
-                        {categories.map((categoryID, i) => {
-                            return (
-                                <option key={i} value={categoryID}>
-                                    {categoryID ? `Arbitrary Category ${categoryID}` : 'Show All'}
-                                </option>
-                            );
-                        })}
+                        <option value="all">Show All</option>
+                        <optgroup label="Categories">
+                            {categories.map((category, i) => {
+                                return (
+                                    <option key={i} value={category}>
+                                        {toTitleCase(category)}
+                                    </option>
+                                );
+                            })}
+                        </optgroup>
                     </select>
                 </label>
                 <label className="flex flex-col items-center mb-4 sm:flex-row max-w-[40vw]">

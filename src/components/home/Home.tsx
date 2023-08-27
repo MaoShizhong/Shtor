@@ -5,7 +5,16 @@ import { CategoryTile } from './CategoryTile';
 import { FeaturedAdvert } from './FeaturedAdvert';
 import { ImageCarousel } from './ImageCarousel';
 
-const categoryImages = ['living-room', 'chessboard', 'bed', 'typewriter'];
+type Categories = {
+    [image: string]: string;
+};
+
+const categoryImages: Categories = {
+    'living-room': 'smartphones',
+    chessboard: 'laptops',
+    bed: 'mens-watches',
+    typewriter: 'sunglasses',
+};
 
 export function Home({ isScrolled }: { isScrolled: boolean }) {
     return (
@@ -17,11 +26,16 @@ export function Home({ isScrolled }: { isScrolled: boolean }) {
                     25% off selected items!
                 </h1>
                 <div className="grid w-full grid-cols-2 gap-2 my-1 sm:my-2 sm:grid-cols-4 sm:gap-4">
-                    {categoryImages.map((image, i) => (
-                        <CategoryTile key={i} image={image} category={i + 1} />
+                    {Object.keys(categoryImages).map((image, i) => (
+                        <CategoryTile
+                            key={i}
+                            index={i + 1}
+                            image={image}
+                            category={categoryImages[image]}
+                        />
                     ))}
                 </div>
-                <FeaturedAdvert product={'Upright Acoustic Pianos'} image={'piano'} />
+                <FeaturedAdvert product="Upright Acoustic Pianos" image="piano" />
 
                 {isScrolled && <ScrollToTopButton />}
             </main>

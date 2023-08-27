@@ -11,8 +11,10 @@ const quantities = [...Array(11).keys()];
 export function CartItem({ item }: CartItemProps) {
     const orderValue = getPriceAsCurrencyString(item.price * item.quantity);
 
+    const { removeFromCart } = useContext(CartContext);
+
     return (
-        <tr className="border-y border-soft">
+        <tr className="relative border-y border-soft">
             <td className="py-2 text-left">
                 <div className="flex items-start gap-4">
                     <img className="max-w-[4rem] border border-soft" src={item.images[0]}></img>
@@ -22,7 +24,16 @@ export function CartItem({ item }: CartItemProps) {
                     </div>
                 </div>
             </td>
-            <td className="self-center text-right">{orderValue}</td>
+            <td className="self-center text-right">
+                <p>{orderValue}</p>
+            </td>
+            <button
+                className="absolute font-extrabold -translate-y-1/2 -right-6 top-2/4"
+                aria-label="remove cart item"
+                onClick={() => removeFromCart(item, item.quantity)}
+            >
+                X
+            </button>
         </tr>
     );
 }
