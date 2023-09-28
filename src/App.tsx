@@ -43,10 +43,12 @@ export default function App() {
     function removeFromCart(product: Product, quantityToRemove: number): void {
         const productInCart = cart.get(product.id);
 
-        productInCart!.quantity -= quantityToRemove;
+        if (!productInCart) return;
+
+        productInCart.quantity -= quantityToRemove;
         setCart(cart.set(product.id, productInCart!));
 
-        if (productInCart!.quantity === 0) {
+        if (!productInCart.quantity) {
             cart.delete(product.id);
             setCart(cart);
         }

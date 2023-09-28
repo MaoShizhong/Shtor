@@ -20,7 +20,11 @@ export function Item({ product }: { product: Product }) {
     return (
         <>
             <div className="flex flex-col p-4 border shadow-lg border-soft">
-                <img src={product.images[0]} alt="product image"></img>
+                <img
+                    src={product.images[0]}
+                    alt="product image"
+                    className="object-contain h-36 aspect-square"
+                ></img>
                 <h1 className="pt-2 mt-4 mb-4 border-t border-soft">{product.title}</h1>
                 <div className="flex justify-between mt-auto">
                     <button

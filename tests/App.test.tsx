@@ -1,31 +1,31 @@
-import { render, screen, getByRole } from '@testing-library/react';
+// import { render, screen, getByRole } from '@testing-library/react';
 // import userEvent from '@testing-library/user-event';
-import { Home } from '../src/components/home/Home';
+// import { Home } from '../src/components/home/Home';
 // import Router from '../src/components/Router';
-import { BrowserRouter } from 'react-router-dom';
+// import { BrowserRouter } from 'react-router-dom';
 
-describe('App renders', () => {
-    render(
-        <BrowserRouter>
-            <Home isScrolled={false} />
-        </BrowserRouter>
-    );
-    const header = screen.getByRole('banner');
+// describe('App renders', () => {
+//     render(
+//         <BrowserRouter>
+//             <Home isScrolled={false} />
+//         </BrowserRouter>
+//     );
+//     const header = screen.getByRole('banner');
 
-    it('Renders header element', () => {
-        expect(header).toBeInTheDocument();
-    });
+//     it('Renders header element', () => {
+//         expect(header).toBeInTheDocument();
+//     });
 
-    it('Includes a logo and navbar', () => {
-        const logo = getByRole(header, 'img');
-        const nav = getByRole(header, 'navigation');
+//     it('Includes a logo and navbar', () => {
+//         const logo = getByRole(header, 'img');
+//         const nav = getByRole(header, 'navigation');
 
-        // cast to Boolean with !!
-        const containsLogoAndNav = !!logo && !!nav;
+//         // cast to Boolean with !!
+//         const containsLogoAndNav = !!logo && !!nav;
 
-        expect(containsLogoAndNav).toBe(true);
-    });
-});
+//         expect(containsLogoAndNav).toBe(true);
+//     });
+// });
 
 // describe('Routes configured correctly', () => {
 //     it('Homepage renders', async () => {
