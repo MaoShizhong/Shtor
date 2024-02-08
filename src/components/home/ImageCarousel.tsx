@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowControl } from './ArrowControl';
 import { Indicators } from './Indicators';
 
@@ -7,15 +7,15 @@ export function ImageCarousel() {
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    // useEffect((): (() => void) => {
-    //     function carouselAutoplay(): void {
-    //         setCurrentIndex(currentIndex === images.length - 1 ? 0 : currentIndex + 1);
-    //     }
+    useEffect((): (() => void) => {
+        function carouselAutoplay(): void {
+            setCurrentIndex(currentIndex === images.length - 1 ? 0 : currentIndex + 1);
+        }
 
-    //     const autoplayInterval = setInterval(carouselAutoplay, 7000);
+        const autoplayInterval = setInterval(carouselAutoplay, 7000);
 
-    //     return (): void => clearInterval(autoplayInterval);
-    // }, [currentIndex, images.length]);
+        return (): void => clearInterval(autoplayInterval);
+    }, [currentIndex, images.length]);
 
     return (
         <div
